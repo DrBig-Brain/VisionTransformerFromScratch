@@ -8,5 +8,5 @@
    - The classification head is implemented by a MLP with one hidden layer at pre-training time and by a single linear layer at fine-tuning time.
    - Position embeddings are added to the patch embeddings to retain positional information. We use standard learnable 1D position embeddings.
    - alternating layers of multiheaded self-attention (MSA, see Appendix A) and MLP blocks (Eq. 2, 3). Layernorm (LN) is applied before every block, and residual connections after every block 
-   - [MLP](MLP.png)
-   - [Self Attention](SelfAttention.png)
+   - ![MLP](MLP.png)
+   - ![Self Attention](SelfAttention.png)
