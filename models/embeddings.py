@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class PatchEmbedding(nn.Module):
-    def __init__(self,patch_dim=12,embedding_dim=64):
+    def __init__(self,patch_dim=48,embedding_dim=64):
         super().__init__()
 
         self.projection = nn.Linear(patch_dim, embedding_dim)
@@ -11,10 +11,10 @@ class PatchEmbedding(nn.Module):
         return self.projection(x)
     
 def test():
-    image = torch.randn(1,256,12)
+    image = torch.randn(1,64,48)
     model = PatchEmbedding()
     result = model(image)
-    print(result.shape)
+    print(result.shape) #output = (B, 64,48)
 
 if __name__ == "__main__":
     test()

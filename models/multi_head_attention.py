@@ -1,0 +1,29 @@
+import torch
+import torch.nn as nn
+from self_attention import SelfAttention
+
+class MultiHeadAttention(nn.Module):
+    def __init__(self,num_heads:int = 8, n_embeddings:int = 64):
+        super().__init__()
+        self.multihead = nn.ModuleList([SelfAttention(n_embeddings//num_heads) for _ in range(num_heads)]) # 8 * B, N, 64//8
+        self.proj = nn.Linear(n_embeddings,n_embeddings) #64x64
+        self.num_heads = num_heads
+
+    def forward(self,x):
+        chunks = torch.chunk(x, 8, dim=-1)
+        out = []
+        for head, chunk in zip(self.multihead,chunks):
+            out.append(head(chunk))
+        x = torch.cat(out, dim = -1)
+        out = self.proj(x) #384x64 -> 64x64
+        return out
+    
+def test():
+    image = torch.randn(1,64,64)
+    print(image.shape)
+    model = MultiHeadAttention(num_heads=8, n_embeddings=64)
+    image_ = model(image)
+    print(image_.shape)
+
+if __name__ == "__main__":
+    test()
