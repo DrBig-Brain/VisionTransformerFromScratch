@@ -14,7 +14,7 @@ def test():
     image = torch.randn(1,64,48)
     model = PatchEmbedding()
     result = model(image)
-    print(result.shape) #output = (B, 64,48)
+    print(result.shape) #output = (B, 64,64)
 
 if __name__ == "__main__":
     test()

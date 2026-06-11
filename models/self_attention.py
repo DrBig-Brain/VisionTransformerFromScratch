@@ -17,14 +17,14 @@ class SelfAttention(nn.Module):
         V = self.W_v(x)
 
         attn_score = Q@K.transpose(-2,-1)
-        attn_score = attn_score/torch.sqrt(torch.tensor([self.embedding_dim]))
+        attn_score = attn_score/self.embedding_dim**0.5
 
         weights = torch.softmax(attn_score, dim = -1)
         
         return weights @ V
     
 def test():
-    image = torch.rand(1,257,64)
+    image = torch.rand(1,64,64)
     model = SelfAttention()
     result = model(image)
     print(result.shape)

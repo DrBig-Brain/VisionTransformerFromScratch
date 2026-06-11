@@ -3,14 +3,14 @@ import torch.nn as nn
 from self_attention import SelfAttention
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self,num_heads:int = 8, n_embeddings:int = 64):
+    def __init__(self,num_heads:int = 8, embedding_dim:int = 64):
         super().__init__()
-        self.multihead = nn.ModuleList([SelfAttention(n_embeddings//num_heads) for _ in range(num_heads)]) # 8 * B, N, 64//8
-        self.proj = nn.Linear(n_embeddings,n_embeddings) #64x64
+        self.multihead = nn.ModuleList([SelfAttention(embedding_dim//num_heads) for _ in range(num_heads)]) # 8 * B, N, 64//8
+        self.proj = nn.Linear(embedding_dim,embedding_dim) #64x64
         self.num_heads = num_heads
 
     def forward(self,x):
-        chunks = torch.chunk(x, 8, dim=-1)
+        chunks = torch.chunk(x, self.num_heads, dim=-1)
         out = []
         for head, chunk in zip(self.multihead,chunks):
             out.append(head(chunk))
