@@ -1,13 +1,13 @@
 import torch
 import torch.nn as nn
-from mlp import MLP
-from multi_head_attention import MultiHeadAttention
+from models.mlp import MLP
+from models.multi_head_attention import MultiHeadAttention
 
 class Block(nn.Module):
-    def __init__(self,embedding_dim:int = 64):
+    def __init__(self,embedding_dim:int = 64, num_heads:int = 8):
         super().__init__()
-        self.mha = MultiHeadAttention(embedding_dim = embedding_dim)
-        self.mlp = MLP(embedding_dim=64)
+        self.mha = MultiHeadAttention(num_heads=num_heads,embedding_dim = embedding_dim)
+        self.mlp = MLP(embedding_dim=embedding_dim)
         self.ln1 = nn.LayerNorm(embedding_dim)
         self.ln2 = nn.LayerNorm(embedding_dim)
 

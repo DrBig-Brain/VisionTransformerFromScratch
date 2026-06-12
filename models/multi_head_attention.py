@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from self_attention import SelfAttention
+from models.self_attention import SelfAttention
 
 class MultiHeadAttention(nn.Module):
     def __init__(self,num_heads:int = 8, embedding_dim:int = 64):
