@@ -6,7 +6,7 @@ class PatchEmbedding(nn.Module):
         super().__init__()
 
         self.projection = nn.Linear(patch_dim, embedding_dim)
-
+        
     def forward(self, x):
         return self.projection(x)
     

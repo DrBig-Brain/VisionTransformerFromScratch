@@ -5,13 +5,14 @@ from models.embeddings import PatchEmbedding
 from models.block import Block
 
 class VisionTransformer(nn.Module):
-    def __init__(self, image_height, image_widht, image_channels, patch_size, embedding_dim,num_heads,num_blocks):
+    def __init__(self, image_height, image_widht, image_channels, patch_size, embedding_dim,num_heads,num_blocks, dropout):
         super().__init__()
         self.creaet_patches = CreatePatches(image_width=image_widht, image_heigh=image_height, image_channels=image_channels, patch_size=patch_size)
         self.embeddings = PatchEmbedding(patch_dim =(patch_size**2)*image_channels, embedding_dim=embedding_dim)
+        self.embedding_dropout = nn.Dropout(dropout)
         self.positional_embedding = nn.Parameter(torch.randn(1,((image_height//patch_size)*(image_widht//patch_size)) + 1, embedding_dim))
         self.cls_token = nn.Parameter(torch.randn(1,1,embedding_dim))
-        self.blocks = nn.Sequential(*[Block(embedding_dim=embedding_dim,num_head=num_heads) for _ in range(num_blocks)])
+        self.blocks = nn.Sequential(*[Block(embedding_dim=embedding_dim,num_heads=num_heads, dropout = dropout) for _ in range(num_blocks)])
         self.final_layernorm = nn.LayerNorm(embedding_dim)
         self.prediction_head = nn.Linear(embedding_dim, 4)
 
@@ -21,6 +22,7 @@ class VisionTransformer(nn.Module):
         cls_token = self.cls_token.expand(x.shape[0],-1,-1)
         patch_embeddings = torch.cat([cls_token, patch_embeddings],dim=1)
         patch_embeddings = patch_embeddings + self.positional_embedding
+        patch_embeddings = self.embedding_dropout(patch_embeddings)
         out = self.blocks(patch_embeddings)
         out = self.final_layernorm(out)
 

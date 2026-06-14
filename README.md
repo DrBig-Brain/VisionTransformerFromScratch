@@ -64,18 +64,18 @@ The Vision Transformer model implements the following components:
 Model parameters (from `train.py`):
 - Image dimensions: 224×224
 - Patch size: 16
-- Embedding dimension: 32
+- Embedding dimension: 64
 - Number of attention heads: 4
 - Number of transformer blocks: 4
 - Number of classes: 4
 
 Training parameters:
 - Number of epochs: 100
-- Learning rate: 1e-4
-- Optimizer: AdamW with weight decay (0.03)
+- Learning rate: 2e-3
+- Optimizer: AdamW with weight decay (0.01)
 - Loss function: CrossEntropyLoss
 - Scheduler: Cosine annealing learning rate scheduler
-- Batch size: 8
+- Batch size: 64
 
 ## Dependencies
 

@@ -3,9 +3,9 @@ import torch.nn as nn
 from models.self_attention import SelfAttention
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self,num_heads:int = 8, embedding_dim:int = 64):
+    def __init__(self,num_heads:int = 8, embedding_dim:int = 64, dropout = 0.1):
         super().__init__()
-        self.multihead = nn.ModuleList([SelfAttention(embedding_dim//num_heads) for _ in range(num_heads)]) # 8 * B, N, 64//8
+        self.multihead = nn.ModuleList([SelfAttention(embedding_dim = embedding_dim//num_heads, dropout = dropout) for _ in range(num_heads)]) # 8 * B, N, 64//8
         self.proj = nn.Linear(embedding_dim,embedding_dim) #64x64
         self.num_heads = num_heads
 

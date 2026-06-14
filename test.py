@@ -34,7 +34,7 @@ if __name__ == "__main__":
     device = "xpu" if torch.xpu.is_available() else "cpu"
     image_dim = 224
     patch_size = 16
-    embedding_dim = 32
+    embedding_dim = 64
     num_heads = 4
     num_block=4
 
@@ -50,7 +50,7 @@ if __name__ == "__main__":
         checkpoint["model_state_dict"]
     )
 
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
 
     val_loss, val_acc = evaluate(model, test_loader, criterion, device)
     print(f"Validation Loss: {val_loss:.4f}, Accuracy: {val_acc:.2f}%")
