@@ -38,7 +38,7 @@ if __name__ == "__main__":
     num_heads = 4
     num_block=4
 
-    model = VisionTransformer(image_height=image_dim,image_widht=image_dim,image_channels=3, patch_size=patch_size, embedding_dim=embedding_dim, num_heads=num_heads, num_blocks=num_block)
+    model = VisionTransformer(image_height=image_dim,image_widht=image_dim,image_channels=3, patch_size=patch_size, embedding_dim=embedding_dim, num_heads=num_heads, num_blocks=num_block, dropout = 0.1)
     model.to(device)
 
     checkpoint = torch.load(
